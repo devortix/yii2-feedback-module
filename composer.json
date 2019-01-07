@@ -1,0 +1,34 @@
+{
+    "name": "devortix/yii2-feedback-module",
+    "description": "Devortix feedback module",
+    "type": "yii2-extension",
+    "keywords": ["yii2", "yii 2", "feedback module"],
+    "license": "MIT",
+    "version": "1.0.0.0",
+    "minimum-stability": "stable",
+    "authors": [
+        {
+            "name": "Roman Skorohod",
+            "email": "devortix@gmail.com",
+            "homepage": "https://devortix.com"
+        }
+    ],
+  
+    "require": {
+        "yiisoft/yii2": "~2.0",
+        "lajax/yii2-translate-manager": "^1.7"
+    },
+   
+    "autoload": {
+        "psr-4": {
+            "devortix\\feedback\\": "src/"
+        }
+    },
+    
+    "extra": {
+        "asset-installer-paths": {
+            "npm-asset-library": "vendor/npm",
+            "bower-asset-library": "vendor/bower"
+        }
+    }
+}
