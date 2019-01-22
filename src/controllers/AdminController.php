@@ -50,7 +50,7 @@ class AdminController extends Controller
     public function actionIndex()
     {
         $dataProvider = new ActiveDataProvider([
-            'query' => Feedback::find(),
+            'query' => Feedback::find()->orderBy(['id' => SORT_DESC]),
         ]);
 
         return $this->render('index', [

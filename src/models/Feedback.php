@@ -83,6 +83,7 @@ class Feedback extends \yii\db\ActiveRecord
             'created_at' => Yii::t('admin-feedback', 'Created At'),
             'updated_at' => Yii::t('admin-feedback', 'Updated At'),
             'status' => Yii::t('admin-feedback', 'Status'),
+            'name' => Yii::t('admin-feedback', 'Name'),
         ];
     }
 }
