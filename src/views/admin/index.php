@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'attribute' => 'file',
             'content' => function ($data) {
                 if (is_file($data->filePath)) {
-                    return Html::a('<i class="fa fa-download" ></i>', '/' . $data->filePath, ['target' => '_blank']);
+                    return Html::a('<i class="fa fa-download" ></i>', $data->fileUrl, ['target' => '_blank']);
                 }
 
             },

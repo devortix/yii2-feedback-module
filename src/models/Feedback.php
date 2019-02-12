@@ -33,7 +33,7 @@ class Feedback extends \yii\db\ActiveRecord
     ];
 
     public $file = null;
-    public $fileFolder = 'uploads/feedback/';
+    public $fileFolder = '@webroot/uploads/feedback/';
     public $file_url = '@web/uploads/feedback/';
     /**
      * {@inheritdoc}
@@ -114,7 +114,8 @@ class Feedback extends \yii\db\ActiveRecord
 
     public function getFilePath()
     {
-        return $this->fileFolder . $this->file_name;
+        
+        return Yii::getAlias($this->fileFolder) . $this->file_name;
     }
 
     public function getFileUrl()
@@ -133,8 +134,9 @@ class Feedback extends \yii\db\ActiveRecord
     public function upload()
     {
         $this->generateFileName();
-        if (is_dir($this->fileFolder)) {
-            $this->file->saveAs($this->fileFolder . $this->file_name);
+        $folder = Yii::getAlias($this->fileFolder);
+        if (is_dir($folder)) {
+            $this->file->saveAs($folder . $this->file_name);
             return true;
         }
         return false;
