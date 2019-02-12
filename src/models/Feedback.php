@@ -28,7 +28,7 @@ class Feedback extends \yii\db\ActiveRecord
     public $statusClasses = [
         self::STATUS_NEW => 'label-info label',
         self::STATUS_WAIT => 'label-warning label',
-        self::STATUS_OK => 'label-sucess label',
+        self::STATUS_OK => 'label-success label',
         self::STATUS_CENCEL => 'label-dunger label',
     ];
 
