@@ -46,6 +46,7 @@ class FeedbackSearch extends Feedback
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
+            'sort' => ['defaultOrder' => ['id' => SORT_DESC]],
         ]);
 
         $this->load($params);
@@ -63,7 +64,7 @@ class FeedbackSearch extends Feedback
             'updated_at' => $this->updated_at,
             'status' => $this->status,
         ]);
-        $query->orderBy(['id' => SORT_DESC]);
+
         $query->andFilterWhere(['like', 'user_name', $this->user_name])
             ->andFilterWhere(['like', 'user_email', $this->user_email])
             ->andFilterWhere(['like', 'phone', $this->phone])
