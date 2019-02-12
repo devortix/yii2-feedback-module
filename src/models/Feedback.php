@@ -21,6 +21,8 @@ use yii\behaviors\TimestampBehavior;
  */
 class Feedback extends \yii\db\ActiveRecord
 {
+    public $file = null;
+    public $fileFolder = 'uploads/feedback/';
     /**
      * {@inheritdoc}
      */
@@ -48,9 +50,10 @@ class Feedback extends \yii\db\ActiveRecord
     {
         return [
             [['content', 'name'], 'required'],
-            [['content', 'info'], 'string'],
+            [['content', 'info', 'file_name'], 'string'],
             [['created_at', 'updated_at', 'status'], 'integer'],
             [['user_name', 'name', 'user_email', 'phone', 'push_emails'], 'string', 'max' => 255],
+            [['file'], 'file',   'extensions' => 'doc, docx, txt, pdf'],
         ];
     }
 
@@ -65,6 +68,15 @@ class Feedback extends \yii\db\ActiveRecord
         } else {
             return false;
         }
+    }
+
+    public function beforeDelete()
+    {
+        if (is_file($this->filePath)) {
+            unlink($this->filePath);
+        }
+
+        return parent::beforeDelete();
     }
 
     /**
@@ -85,5 +97,27 @@ class Feedback extends \yii\db\ActiveRecord
             'status' => Yii::t('admin-feedback', 'Status'),
             'name' => Yii::t('admin-feedback', 'Name'),
         ];
+    }
+
+    public function getFilePath()
+    {
+        return $this->fileFolder . $this->file_name;
+    }
+
+    public function generateFileName()
+    {
+        return $this->file_name = \Yii::$app->formatter->asDate($this->created_at, 'php:Y-m-d H:i') . '_'
+        . $this->file->baseName
+        . '.' . $this->file->extension;
+    }
+
+    public function upload()
+    {
+        $this->generateFileName();
+        if (is_dir($this->fileFolder)) {
+            $this->file->saveAs($this->fileFolder . $this->file_name);
+            return true;
+        }
+        return false;
     }
 }

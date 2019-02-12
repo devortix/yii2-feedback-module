@@ -35,6 +35,15 @@ $this->params['breadcrumbs'][] = $this->title;
         'user_email:email',
         'phone',
         'push_emails:email',
+        [
+            'attribute' => 'file_name',
+            'content' => function ($data) {
+                if (is_file($data->filePath)) {
+                    return Html::a('Файл', '/' . $data->filePath, ['target' => '_blank']);
+                }
+
+            },
+        ],
         //'content:ntext',
         //'info:ntext',
         //'created_at',

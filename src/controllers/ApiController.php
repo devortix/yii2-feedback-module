@@ -3,6 +3,7 @@ namespace devortix\feedback\controllers;
 
 use yii\rest\ActiveController;
 use yii\web\Response;
+use yii\web\UploadedFile;
 
 class ApiController extends ActiveController
 {
@@ -46,13 +47,19 @@ class ApiController extends ActiveController
                 }
             }
             $model->info = $info;
-            if ($model->save()) {
-                return ['status' => 'success'];
-            } else {
-                return [
-                    'status' => 'success',
-                    'message' => $model->errors,
-                ];
+            if (\Yii::$app->request->isPost) {
+                $model->file = UploadedFile::getInstanceByName('file');
+                if ($model->save()) {
+                    if ($model->file && $model->upload()) {
+                        $model->save(false);
+                    }
+                    return ['status' => 'success'];
+                } else {
+                    return [
+                        'status' => 'success',
+                        'message' => $model->errors,
+                    ];
+                }
             }
         }
     }
