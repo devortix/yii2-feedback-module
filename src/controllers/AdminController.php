@@ -2,9 +2,9 @@
 
 namespace devortix\feedback\controllers;
 
+use devortix\feedback\forms\FeedbackSearch;
 use devortix\feedback\models\Feedback;
 use Yii;
-use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -49,11 +49,11 @@ class AdminController extends Controller
      */
     public function actionIndex()
     {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Feedback::find()->orderBy(['id' => SORT_DESC]),
-        ]);
+        $searchModel = new FeedbackSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
+            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
     }

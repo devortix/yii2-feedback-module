@@ -1,8 +1,8 @@
 <?php
 
-use yii\grid\GridView;
+use devortix\feedback\models\Feedback;
 use yii\helpers\Html;
-
+use \yiister\gentelella\widgets\grid\GridView;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
@@ -21,6 +21,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?=GridView::widget([
     'dataProvider' => $dataProvider,
+    'hover' => true,
+    'filterModel' => $searchModel,
     'columns' => [
         ['class' => 'yii\grid\SerialColumn'],
 
@@ -28,29 +30,42 @@ $this->params['breadcrumbs'][] = $this->title;
         [
             'attribute' => 'created_at',
             'content' => function ($data) {
-                return \Yii::$app->formatter->asDate($data->created_at, 'php:Y-m-d H:i');;
+                $val = \Yii::$app->formatter->asDate($data->created_at, 'php:Y-m-d H:i');
+                return Html::tag('code', $val);
             },
         ],
         'user_name',
         'user_email:email',
         'phone',
-        'push_emails:email',
-        [
-            'attribute' => 'file_name',
-            'content' => function ($data) {
-                if (is_file($data->filePath)) {
-                    return Html::a('Файл', '/' . $data->filePath, ['target' => '_blank']);
-                }
-
-            },
-        ],
         //'content:ntext',
         //'info:ntext',
         //'created_at',
         //'updated_at',
-        //'status',
+        [
+            'attribute' => 'status',
+            'filter' => Feedback::getStatuses(),
+            'content' => function ($data) {
+                $block = Html::tag('span', $data->statusLabel, ['style' => 'font-size: 12px']);
+                return Html::tag('span', $block, ['class' => $data->statusClass, 'style' => 'font-size: 15px']);
+            },
+        ],
+        [
+            'attribute' => 'file',
+            'content' => function ($data) {
+                if (is_file($data->filePath)) {
+                    return Html::a('<i class="fa fa-download" ></i>', '/' . $data->filePath, ['target' => '_blank']);
+                }
 
-        ['class' => 'yii\grid\ActionColumn'],
+            },
+        ],
+
+        [
+            'class' => 'yii\grid\ActionColumn',
+            'options' => [
+                'width' => '80px',
+            ],
+
+        ],
     ],
 ]);?>
 </div>

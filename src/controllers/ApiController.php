@@ -56,7 +56,7 @@ class ApiController extends ActiveController
                     return ['status' => 'success'];
                 } else {
                     return [
-                        'status' => 'success',
+                        'status' => 'error',
                         'message' => $model->errors,
                     ];
                 }

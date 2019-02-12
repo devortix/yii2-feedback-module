@@ -21,6 +21,17 @@ use yii\behaviors\TimestampBehavior;
  */
 class Feedback extends \yii\db\ActiveRecord
 {
+    const STATUS_NEW = 1;
+    const STATUS_WAIT = 2;
+    const STATUS_OK = 3;
+    const STATUS_CENCEL = 0;
+    public $statusClasses = [
+        self::STATUS_NEW => 'label-info label',
+        self::STATUS_WAIT => 'label-warning label',
+        self::STATUS_OK => 'label-sucess label',
+        self::STATUS_CENCEL => 'label-dunger label',
+    ];
+
     public $file = null;
     public $fileFolder = 'uploads/feedback/';
     /**
@@ -53,7 +64,7 @@ class Feedback extends \yii\db\ActiveRecord
             [['content', 'info', 'file_name'], 'string'],
             [['created_at', 'updated_at', 'status'], 'integer'],
             [['user_name', 'name', 'user_email', 'phone', 'push_emails'], 'string', 'max' => 255],
-            [['file'], 'file',   'extensions' => 'doc, docx, txt, pdf'],
+            [['file'], 'file', 'extensions' => 'doc, docx, txt, pdf'],
         ];
     }
 
@@ -96,6 +107,7 @@ class Feedback extends \yii\db\ActiveRecord
             'updated_at' => Yii::t('admin-feedback', 'Updated At'),
             'status' => Yii::t('admin-feedback', 'Status'),
             'name' => Yii::t('admin-feedback', 'Name'),
+            'file' => Yii::t('admin-feedback', 'File'),
         ];
     }
 
@@ -119,5 +131,31 @@ class Feedback extends \yii\db\ActiveRecord
             return true;
         }
         return false;
+    }
+
+    public static function getStatuses()
+    {
+        return [
+            self::STATUS_NEW => Yii::t('admin-feedback', 'status new'),
+            self::STATUS_WAIT => Yii::t('admin-feedback', 'status wait'),
+            self::STATUS_OK => Yii::t('admin-feedback', 'status ok'),
+            self::STATUS_CENCEL => Yii::t('admin-feedback', 'status cencel'),
+
+        ];
+    }
+
+    public function getStatusClass()
+    {
+        if(isset($this->statusClasses[$this->status]))
+            return $this->statusClasses[$this->status];
+        return '';
+    }
+
+    public function getStatusLabel()
+    {
+        $statuses =  self::getStatuses();
+        if(isset($statuses[$this->status]))
+            return $statuses[$this->status];
+        return 'null';
     }
 }
