@@ -34,7 +34,7 @@ class Feedback extends \yii\db\ActiveRecord
 
     public $file = null;
     public $fileFolder = 'uploads/feedback/';
-    public $fileUrl = '@web/uploads/feedback/';
+    public $file_url = '@web/uploads/feedback/';
     /**
      * {@inheritdoc}
      */
@@ -114,7 +114,12 @@ class Feedback extends \yii\db\ActiveRecord
 
     public function getFilePath()
     {
-        $url = Yii::getAlias($this->fileUrl);
+        return $this->fileFolder . $this->file_name;
+    }
+
+    public function getFileUrl()
+    {
+        $url = Yii::getAlias($this->file_url);
         return $url . $this->file_name;
     }
 
