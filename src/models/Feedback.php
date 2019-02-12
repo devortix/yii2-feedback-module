@@ -29,7 +29,7 @@ class Feedback extends \yii\db\ActiveRecord
         self::STATUS_NEW => 'label-info label',
         self::STATUS_WAIT => 'label-warning label',
         self::STATUS_OK => 'label-success label',
-        self::STATUS_CENCEL => 'label-dunger label',
+        self::STATUS_CENCEL => 'label-danger label',
     ];
 
     public $file = null;
@@ -166,5 +166,9 @@ class Feedback extends \yii\db\ActiveRecord
         if(isset($statuses[$this->status]))
             return $statuses[$this->status];
         return 'null';
+    }
+
+    public function getUid(){
+        return '#' . $this->id . ' ' . $this->name;
     }
 }

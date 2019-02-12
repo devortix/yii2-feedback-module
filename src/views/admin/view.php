@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model app\modules\feedback\models\Feedback */
 
-$this->title = $model->id;
+$this->title = $model->uid;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('admin-feedback', 'Feedbacks'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
@@ -45,6 +45,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 $block = Html::tag('span', $data->statusLabel, ['style' => 'font-size: 12px']);
                 return Html::tag('span', $block, ['class' => $data->statusClass, 'style' => 'font-size: 15px']);
             },
+        ],
+        [
+            'attribute' => 'file',
+            'format' => 'raw',
+            'value' => function ($data) {
+                if (is_file($data->filePath)) {
+                    return Html::a('<i class="fa fa-download" ></i> Скачать файл', $data->fileUrl, ['target' => '_blank']);
+                }
+            },
+
         ],
     ],
 ])?>

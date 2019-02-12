@@ -25,8 +25,8 @@ class ApiController extends ActiveController
             'class' => \yii\filters\Cors::className(),
             'cors' => [
                 'Origin' => $this->allowDomains,
-            ]
-             
+            ],
+
         ];
         $behaviors['contentNegotiator'] = [
             'class' => \yii\filters\ContentNegotiator::className(),
@@ -63,7 +63,7 @@ class ApiController extends ActiveController
                 } else {
                     return [
                         'status' => 'error',
-                        'message' => $model->errors,
+                        'message' => $model->firstErrors,
                     ];
                 }
             }

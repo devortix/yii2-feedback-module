@@ -24,8 +24,13 @@ $this->params['breadcrumbs'][] = $this->title;
     'hover' => true,
     'filterModel' => $searchModel,
     'columns' => [
-        ['class' => 'yii\grid\SerialColumn'],
-
+        [
+            'attribute' => 'id',
+            'filter' => false,
+            'content' => function ($data) {
+                return '#' . $data->id;
+            },
+        ],
         'name',
         [
             'attribute' => 'created_at',
