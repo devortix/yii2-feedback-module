@@ -8,7 +8,7 @@ use yii\web\UploadedFile;
 class ApiController extends ActiveController
 {
     public $modelClass = 'devortix\feedback\models\Feedback';
-
+    public $allowDomains = ['*'];
     public function actions()
     {
         $actions = parent::actions();
@@ -21,7 +21,10 @@ class ApiController extends ActiveController
     public function behaviors()
     {
         $behaviors = parent::behaviors();
-
+        $behaviors['corsFilter'] = [
+            'class' => \yii\filters\Cors::className(),
+            'Origin' => $this->allowDomains,
+        ];
         $behaviors['contentNegotiator'] = [
             'class' => \yii\filters\ContentNegotiator::className(),
             'formats' => [
