@@ -23,7 +23,10 @@ class ApiController extends ActiveController
         $behaviors = parent::behaviors();
         $behaviors['corsFilter'] = [
             'class' => \yii\filters\Cors::className(),
-            'Origin' => $this->allowDomains,
+            'cors' => [
+                'Origin' => $this->allowDomains,
+            ]
+             
         ];
         $behaviors['contentNegotiator'] = [
             'class' => \yii\filters\ContentNegotiator::className(),
